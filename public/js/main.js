@@ -1,3 +1,26 @@
+var socket = io();
+var socket_id;
+
+socket.on('socketId', function(data)
+{
+	socket_id = data.socketId;
+});
+
+socket.on('usernameResponse', function(data)
+{
+	if (data.success == true)
+	{
+		window.localStorage.setItem('username', data.nam);
+		$("#chooseNameDiv")[0].style.display = "none";
+		$("#serverList")[0].style.display = "block";
+	}
+	else
+	{
+		$("#nameError")[0].innerHTML = "That name is currently in use.";
+		$("#nameError")[0].style.display = "block";
+	}
+});
+
 function showServers()
 {
 	var nam = $(".nameBox")[0].value;
@@ -8,8 +31,7 @@ function showServers()
 	}
 	else
 	{
-		window.localStorage.setItem('username', nam);
-		$("#chooseNameDiv")[0].style.display = "none";
-		$("#serverList")[0].style.display = "block";
+		socket.emit('checkUsername', {username: nam});
 	}
 }
+
