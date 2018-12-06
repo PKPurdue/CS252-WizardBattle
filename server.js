@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
 var userList = [];
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/login.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.post('/followUser', (req, res) => {

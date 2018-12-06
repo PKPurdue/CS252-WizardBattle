@@ -1,0 +1,74 @@
+:root {
+	--background-color: #AAAAAA; /*85B9D6;*/
+	--frame-color: #AAAAAA; /*95D0FD;*/
+	--primary-color: #FFFFFF;
+	--secondary-color: #FFFFFF;
+	--dark-primary-color: #DDDDDD;
+	--button-color: #95D0FD; /*DDDDDD;*/
+	--button-hover-color: #85C9F2;
+}
+body {
+	background-color: var(--background-color);
+	background-size: 100% auto;
+	background-image: url("/images/Background.jpg");
+	background-repeat: no-repeat, no-repeat;
+	text-align: center;
+}
+
+#chooseNameDiv {
+	position: relative;
+	top: 15%;
+	background-color: #555 !important;
+	width: 50%;
+	height: auto;
+	border-radius: 6px;
+	left: 25%;
+	background: white;
+}
+
+.centerText {
+	text-align: center;
+	color: white;
+}
+
+.nameBox {
+	position: relative;
+	left: 15%;
+	text-align: center;
+	width: 70%;
+	border-radius: 5px;
+	color: #222222;
+	font-family: "Serif"
+	display: block;
+	font-size: 115%;
+	outline: none;
+	border: 0;
+}
+
+.nameBox:focus {
+	/*border: 2px solid #DED;*/
+    box-shadow:inset 0px 0px 0px 2px #CCC;
+}
+
+.nameBox:hover {
+	box-shadow:inset 0px 0px 0px 2px #CCC;
+	transition-duration: .3s;
+}
+
+.serverButton {
+	position: relative;
+	width: 30%;
+	left: 35%;
+	height: 6%;
+	font-size: 140%;
+	background-color: #3C4;
+	color: white;
+	outline: none;
+	border-radius: 4px;
+	border: 0;
+}
+
+.serverButton:hover {
+	background-color: #2B3;
+	transition-duration: .3s;
+}
