@@ -153,7 +153,14 @@ socket.on('startGameResponse', function(data)
 
 socket.on('gameStarting', function(data)
 {
-	alert("The game is starting!");
+	$("#serverList")[0].style.display = "none";
+	$("#serverLobby")[0].style.display = "none";
+	$("#wizardBattleGame")[0].style.display = "block";
+});
+
+socket.on('youDied', function(data)
+{
+	alert("You died!");
 });
 
 function startGame()
@@ -198,6 +205,44 @@ document.onkeyup = function(event) {
 		socket.emit('keyPress', {inputId:'fire',state:false,socketid: socket_id});
 	}
 }
+
+socket.on('positionUpdate', function(data)
+{
+	var positions = data.objectPositions;
+	var gamePlayers = $(".gamePlayer");
+	var projectiles = $(".projectile");
+	var playerCount = 0;
+	var projectileCount = 0;
+	for (var i = 0; i < positions.length; i++)
+	{
+		if (positions[i].type == "player")
+		{
+			var plr = positions[i];
+			gamePlayers[playerCount].style.display = "block";
+			gamePlayers[playerCount].children[1].innerHTML = plr.name;
+			gamePlayers[playerCount].style.left = plr.x + "%";
+			gamePlayers[playerCount].style.top = plr.y + "%";
+			playerCount++;
+		}
+		else if (positions[i].type == "projectile")
+		{
+			var projectile = projectiles[projectileCount];
+			projectile.style.display = "block";
+			projectile.style.left = positions[i].x + "%";
+			projectile.style.top = positions[i].y + "%";
+			projectile.style.transform = "rotate(" + Math.floor(positions[i].rotation) + "deg)";
+			projectileCount++;
+		}
+	}
+	for (var i = playerCount; i < 10; i++)
+	{
+		gamePlayers[i].style.display = "none";
+	}
+	for (var i = projectileCount; i < projectiles.length; i++)
+	{
+		projectiles[i].style.display = "none";
+	}
+});
 
 showJoinableGames();
 setInterval(function()
