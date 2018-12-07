@@ -1,4 +1,5 @@
 var socket = io();
+const db = firebase.database();
 var socket_id;
 var uN = "";
 
@@ -58,6 +59,28 @@ function joinServer(gameButton)
 {
 	var game = gameButton.parentNode;
 	socket.emit('joinGame', {serverName: game.children[0].innerHTML});
+}
+
+function getLeaderboardEntries(callback)
+{
+	db.ref('/leaderboard').once('value').then((data) => {
+		try {
+			var leaderboard = data.val();
+			for (var i = 0; i < leaderboard.length; i++)
+			{
+				console.log(JSON.stringify(leaderboard[i]));
+			}
+			callback(leaderboard);
+		}
+		catch (err)
+		{
+			var tes = [];
+			tes.push({playerName: "Test", kills: 5});
+			db.ref('/leaderboard').update({tes});
+		}
+	}).then(function() {
+		alert("Done getting lb entries!");
+	});
 }
 
 socket.on('joinGameResponse', function(data)
@@ -160,10 +183,20 @@ socket.on('gameStarting', function(data)
 
 socket.on('youDied', function(data)
 {
-	alert("You died!");
-	console.log("Ok.");
 	$("#deadFrame")[0].style.display = "block";
 	$("#respawnFrame")[0].children[1].innerHTML = "Kills: " + data.kills;
+	var lb = data.leaderboard;
+	var killDiv = $(".playerKillDiv");
+	for (var i = 0; i < lb.length && i < 8; i++)
+	{
+		killDiv[i].children[0].innerHTML = (i + 1) + ". " + lb[i].name;
+		killDiv[i].children[1].innerHTML = lb[i].kills;
+		killDiv[i].style.display = "inline-block";
+	}
+	for (var i = lb.length; i < 8; i++)
+	{
+		killDiv[i].style.display = "none";
+	}
 });
 
 function leaveGame()
@@ -236,11 +269,19 @@ socket.on('positionUpdate', function(data)
 		{
 			var plr = positions[i];
 			gamePlayers[playerCount].style.display = "block";
-			gamePlayers[playerCount].children[1].innerHTML = plr.name;
+			gamePlayers[playerCount].children[1].innerHTML = "";//plr.name;
 			gamePlayers[playerCount].style.left = plr.x + "%";
 			gamePlayers[playerCount].style.top = plr.y + "%";
 			gamePlayers[playerCount].style.transform = "rotate(" + Math.floor(positions[i].rotation) + "deg)";
 			gamePlayers[playerCount].children[1].style.transform = "rotate(" + Math.floor(-positions[i].rotation) + "deg)";
+			if (positions[i].name == uN)
+			{
+				gamePlayers[playerCount].children[0].src = "images/YourWizard.png";
+			}
+			else
+			{
+				gamePlayers[playerCount].children[0].src = "images/Wizard.png";
+			}
 			playerCount++;
 		}
 		else if (positions[i].type == "projectile")
@@ -263,6 +304,7 @@ socket.on('positionUpdate', function(data)
 	}
 });
 
+//getLeaderboardEntries();
 showJoinableGames();
 setInterval(function()
 {

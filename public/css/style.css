@@ -182,7 +182,7 @@ body {
 	margin-left: 5px;
 }
 
-.playerKillDiv {
+.playerKillDiv, .playerKillDivTitle {
 	width: 100%;
 }
 

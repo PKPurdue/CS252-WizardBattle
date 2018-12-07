@@ -10,6 +10,7 @@ var players = [];
 var playerList = [];
 var games = [];
 var moveVectorList = [];
+var localLeaderboard = [];
 moveVectorList.up = 0;
 moveVectorList.down = 1;
 moveVectorList.left = 2;
@@ -80,7 +81,13 @@ function checkForCollisions(game)
 				//console.log("Projectile hit on " + player.name + ", " + player.health + " health left.");
 				if (player.health < 0)
 				{
-					player.socket.emit('youDied', {kills: player.kills, leaderboard: {}});
+					localLeaderboard.push({name: player.name, kills: player.kills});
+					localLeaderboard.sort(function(c, d) { return c.kills < d.kills; });
+					if (localLeaderboard.length > 10)
+					{
+						localLeaderboard.splice(10, (localLeaderboard.length - 10));
+					}
+					player.socket.emit('youDied', {kills: player.kills, leaderboard: localLeaderboard});
 					for (var o = 0; o < players.length; o++)
 					{
 						if (projectile.ownerId == players[o].id)
@@ -304,6 +311,8 @@ io.on('connection', function(socket)
 	{
 		player.health = 100;
 		player.kills = 0;
+		player.x = Math.floor(10 + Math.random() * 80);
+		player.y = Math.floor(10 + Math.random() * 80);
 	});
 	
 	socket.on('keyPress', function(data)
