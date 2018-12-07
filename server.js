@@ -76,11 +76,11 @@ function checkForCollisions(game)
 			var player = players[a];
 			if (getRadius(projectile.x, projectile.y, player.x, player.y) < 2 && player.health > 0 && projectile.ownerId != player.id)
 			{
-				player.health = player.health - 45;
+				player.health = player.health - (45 + Math.floor(Math.random() * 20));
 				//console.log("Projectile hit on " + player.name + ", " + player.health + " health left.");
 				if (player.health < 0)
 				{
-					player.socket.emit('youDied', {});
+					player.socket.emit('youDied', {kills: player.kills, leaderboard: {}});
 					for (var o = 0; o < players.length; o++)
 					{
 						if (projectile.ownerId == players[o].id)
@@ -280,15 +280,42 @@ io.on('connection', function(socket)
 		socket.emit('getPlayerListResponse', {success: true, players: playersInGame});
 	});
 	
+	socket.on('leaveGame', function(data)
+	{
+		if (player.game != undefined)
+		{
+			var gamePlayers = player.game.players;
+			for (var i = 0; i < gamePlayers.length; i++)
+			{
+				if (gamePlayers[i].id == player.id)
+				{
+					player.game = undefined;
+					player.gameId = "";
+					player.health = 100;
+					player.kills = 0;
+					gamePlayers.splice(i, 1);
+					break;
+				}
+			}
+		}
+	});
+	
+	socket.on('respawnPlayer', function(data)
+	{
+		player.health = 100;
+		player.kills = 0;
+	});
+	
 	socket.on('keyPress', function(data)
 	{
 		if (data.inputId != "fire")
 		{
+			if (player.health < 0) { return; }
 			player.moveDirections[moveVectorList[data.inputId]] = (data.state == true && 1) || 0;
 			//console.log(data.inputId + " : " + JSON.stringify(player.moveDirections));
 			var hMove = player.moveDirections[3] - player.moveDirections[2];
 			var vMove = player.moveDirections[1] - player.moveDirections[0];
-			var denom = Math.sqrt(Math.pow(hMove, 2) + Math.pow(vMove, 2));
+			var denom = Math.sqrt(Math.pow(hMove, 2) + Math.pow(vMove, 2)) * 2;
 			if (denom == 0) { denom = 1; }
 			player.moveVector = [hMove / denom, vMove / denom];
 			
@@ -320,7 +347,7 @@ io.on('connection', function(socket)
 			{
 				if (new Date().getTime() - player.lastFired > 1500 && (Math.abs(player.moveVector[0]) > 0 || Math.abs(player.moveVector[1]) > 0))
 				{
-					console.log("Firing");
+					//console.log("Firing");
 					//var projectile = [];
 					createProjectile(player);//, projectile);
 				}
@@ -336,20 +363,24 @@ setInterval(function()
 		var game = games[i];
 		if (game.active == true)
 		{
+			if (game.players.length < 1) { games.splice(i, 1); break; }
 			var gamePlayers = game.players;
 			var projectiles = game.projectiles;
 			var positions = [];
 			for (var a = 0; a < gamePlayers.length; a++)
 			{
 				var player = gamePlayers[a];
-				if (player.health < 100 && player.health > 0) { player.health = player.health + .05; }
-				player.x = player.x + player.moveVector[0];
-				player.y = player.y + player.moveVector[1];
-				if (player.x < 0) { player.x = 0; }
-				if (player.x > 96) { player.x = 96; }
-				if (player.y < 0) { player.y = 0; }
-				if (player.y > 90) { player.y = 90; }
-				positions.push({type: "player", name: player.name, x: player.x, y: player.y, rotation: player.rotation});
+				if (player.health > 0)
+				{
+					if (player.health < 100) { player.health = player.health + .05; }
+					player.x = player.x + player.moveVector[0];
+					player.y = player.y + player.moveVector[1];
+					if (player.x < 0) { player.x = 0; }
+					if (player.x > 96) { player.x = 96; }
+					if (player.y < 0) { player.y = 0; }
+					if (player.y > 90) { player.y = 90; }
+					positions.push({type: "player", name: player.name, x: player.x, y: player.y, rotation: player.rotation});
+				}
 			}
 			for (var a = projectiles.length - 1; a > -1; a--)
 			{
@@ -378,4 +409,4 @@ setInterval(function()
 			}
 		}
 	}
-}, 500);
+}, 33);

@@ -149,3 +149,68 @@ body {
 	right: 3px;
 	top: 3px;
 }
+
+#deadFrame {
+	position: absolute;
+	width: 60%;
+	height: 50%;
+	left: 20%;
+	top: 15%;
+	border-radius: 5px;
+	/*background-color: #FFF;*/
+	padding: 5px;
+	z-index: 2;
+}
+
+#leaderboardFrame, #respawnFrame {
+	position: relative;
+	left: 0px;
+	width: calc(33% - 5px);
+	height: 100%;
+	background-color: #555;
+	border-radius: 5px;
+	float: left;
+}
+
+#respawnFrame {
+	position: relative;
+	width: calc(33% - 5px);
+	height: 100%;
+	background-color: #555;
+	border-radius: 5px;
+	float: middle;
+	margin-left: 5px;
+}
+
+.playerKillDiv {
+	width: 100%;
+}
+
+#respawnButton, #lobbyButton {
+	position: relative;
+	width: 42.5%;
+	left: 5%;
+	height: 10%;
+	top: 85%;
+	font-size: 140%;
+	background-color: #3C4;
+	color: white;
+	outline: none;
+	border-radius: 4px;
+	border: 0;
+}
+
+#respawnButton:hover {
+	background-color: #2D3;
+	transition-duration: .3s;
+}
+
+#lobbyButton {
+	background-color: #3AD;
+	left: calc(5% + 5px);
+}
+
+#lobbyButton:hover {
+	background-color: #29C;
+	transition-duration: .3s;
+}

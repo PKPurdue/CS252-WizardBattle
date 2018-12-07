@@ -107,8 +107,24 @@
 		  </div>
 		</div>
 		
+		<div id="deadFrame" style="display: none;">
+			<div id="leaderboardFrame">
+				<p class="centerText" style="font-size: 30px;">Most Kills</p>
+				<div class="playerKillDiv" id="exampleLeaderboardKill" style="display: none; padding-left: 8px; padding-right: 8px; margin: 2px; margin-top: 0px; display: inline-block;">
+					<p style="float: left; color: white; margin: 0px;">1. Player Name</p>
+					<p style="float: right; color: white; margin: 0px;">0</p>
+				</div>
+			</div>
+			<div id="respawnFrame">
+				<p class="centerText" style="font-size: 30px;">💀You Died!💀</p>
+				<p class="centerText">Kills: 0</p>
+				<button id="respawnButton" onclick="respawnPlayer()">Respawn</button>
+				<button id="lobbyButton" onclick="leaveGame()">Lobby</button>
+			</div>
+		</div>
+		
 		<div id="wizardBattleGame" style="display: none;">
-			<img src="images/Map.png" style="position: absolute; width: 100%; height: 100%"></img>
+			<img src="images/Map2.png" style="position: absolute; width: 100%; height: 100%"></img>
 			<img src="images/firespell.gif" class="projectile" style="position: absolute; width: 25px; height: 25px;"></img>
 			<img src="images/firespell.gif" class="projectile" style="position: absolute; width: 25px; height: 25px;"></img>
 			<img src="images/firespell.gif" class="projectile" style="position: absolute; width: 25px; height: 25px;"></img>
@@ -128,45 +144,46 @@
 			<img src="images/firespell.gif" class="projectile" style="position: absolute; width: 25px; height: 25px;"></img>
 			<img src="images/firespell.gif" class="projectile" style="position: absolute; width: 25px; height: 25px;"></img>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
 			<div class="gamePlayer" id="playerIconContainer" style="position: absolute;" >
-				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<img src="images/Wizard.png" style="width: 50px; height: 50px;"></img>
 				<p class="" style="position: relative;"><i>Player Name Here</i></p>
 			</div>
+			
 		</div>
 		
 		<!-- Socket stuff -->

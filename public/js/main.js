@@ -161,7 +161,24 @@ socket.on('gameStarting', function(data)
 socket.on('youDied', function(data)
 {
 	alert("You died!");
+	console.log("Ok.");
+	$("#deadFrame")[0].style.display = "block";
+	$("#respawnFrame")[0].children[1].innerHTML = "Kills: " + data.kills;
 });
+
+function leaveGame()
+{
+	socket.emit('leaveGame', {});
+	$("#deadFrame")[0].style.display = "none";
+	$("#wizardBattleGame")[0].style.display = "none";
+	$("#serverList")[0].style.display = "block";
+}
+
+function respawnPlayer()
+{
+	socket.emit('respawnPlayer', {});
+	$("#deadFrame")[0].style.display = "none";
+}
 
 function startGame()
 {
@@ -222,6 +239,8 @@ socket.on('positionUpdate', function(data)
 			gamePlayers[playerCount].children[1].innerHTML = plr.name;
 			gamePlayers[playerCount].style.left = plr.x + "%";
 			gamePlayers[playerCount].style.top = plr.y + "%";
+			gamePlayers[playerCount].style.transform = "rotate(" + Math.floor(positions[i].rotation) + "deg)";
+			gamePlayers[playerCount].children[1].style.transform = "rotate(" + Math.floor(-positions[i].rotation) + "deg)";
 			playerCount++;
 		}
 		else if (positions[i].type == "projectile")
@@ -234,7 +253,7 @@ socket.on('positionUpdate', function(data)
 			projectileCount++;
 		}
 	}
-	for (var i = playerCount; i < 10; i++)
+	for (var i = playerCount; i < gamePlayers.length; i++)
 	{
 		gamePlayers[i].style.display = "none";
 	}
