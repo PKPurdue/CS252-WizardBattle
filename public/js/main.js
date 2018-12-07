@@ -1,5 +1,6 @@
 var socket = io();
 var socket_id;
+var uN = "";
 
 socket.on('socketId', function(data)
 {
@@ -31,6 +32,7 @@ function verifyName()
 	}
 	else
 	{
+		uN = nam;
 		socket.emit('checkUsername', {username: nam});
 	}
 }
@@ -52,29 +54,65 @@ function createGame()
 	socket.emit('createServer', {serverN: serverName});
 }
 
-socket.on('startGameResponse', function(data)
-{
-	if (data.success == true)
-	{
-		alert("Game is starting");
-	}
-	else
-	{
-		alert("Only the host can start the game");
-	}
-});
-
 function joinServer(gameButton)
 {
-	console.log(gameButton);
 	var game = gameButton.parentNode;
 	socket.emit('joinGame', {serverName: game.children[0].innerHTML});
 }
+
+socket.on('joinGameResponse', function(data)
+{
+	if (data.success == true)
+	{
+		getPlayerList();
+		$("#serverList")[0].style.display = "none";
+		$("#serverLobby")[0].style.display = "block";
+	}
+	else
+	{
+		alert(data.reason || "Error joining game");
+	}
+});
 
 function showJoinableGames()
 {
 	socket.emit('getJoinableGames', {});
 }
+
+function getPlayerList()
+{
+	socket.emit('getPlayerList', {});
+}
+
+socket.on('getPlayerListResponse', function(data)
+{
+	/*var currentServers = $("#playerLabel");
+	for (var i = 0; i < currentServers.length; i++) { currentServers[i].remove(); }*/
+	
+	var games = data.players;
+	var playerTags = $(".playerTag");
+	$("#serverPlayerCount")[0].innerHTML = games.length + "/10 Players";
+	if (games.length == 1) { $("#serverPlayerCount")[0].innerHTML = games.length + "/10 Players"; }
+	for (var i = 0; i < games.length; i++)
+	{
+		playerTags[i].style.display = "block";
+		playerTags[i].children[0].innerHTML = games[i].name;
+		playerTags[i].children[1].innerHTML = games[i].tag;
+		if (games[i].tag != "Host")
+		{
+			playerTags[i].children[1].style["background-color"] = "#3D8";
+		}
+		if (games[i].name == uN)
+		{
+			playerTags[i].style["background-color"] = "#FFA";
+		}
+		else{ playerTags[i].style["background-color"] = "#FFF"; }
+	}
+	for (var i = games.length; i < 10 && i < playerTags.length; i++)
+	{
+		playerTags[i].style.display = "none";
+	}
+});
 
 socket.on('getJoinableGamesResponse', function(data)
 {
@@ -89,10 +127,33 @@ socket.on('getJoinableGamesResponse', function(data)
 		clon.id = "gameServer";
 		clon.children[0].children[0].innerHTML = games[i].name;
 		clon.children[0].children[1].innerHTML = games[i].playerCount + "/10 players";
+		if (games[i].playerCount == 1)
+		{
+			clon.children[0].children[1].innerHTML = games[i].playerCount + "/10 player";
+		}
 		clon.children[0].children[2].id = games[i].id;
 		clon.style.display = "inline-block";
 		$("#serverCardHolder")[0].insertBefore(clon, $("#serverExample")[0]);
 	}
+});
+
+socket.on('startGameResponse', function(data)
+{
+	if (data.success == true)
+	{
+		$("#serverList")[0].style.display = "none";
+		$("#serverLobby")[0].style.display = "none";
+		$("#wizardBattleGame")[0].style.display = "block";
+	}
+	else
+	{
+		alert("Only the host can start the game");
+	}
+});
+
+socket.on('gameStarting', function(data)
+{
+	alert("The game is starting!");
 });
 
 function startGame()
@@ -100,8 +161,47 @@ function startGame()
 	socket.emit('startGame', {});
 }
 
+document.onkeydown = function(event) {
+	if (event.keyCode === 68) { 
+		//d
+		socket.emit('keyPress', {inputId:'right',state:true,socketid: socket_id});
+	} else if (event.keyCode === 83) {
+		//s
+		socket.emit('keyPress', {inputId:'down',state:true,socketid: socket_id});
+	} else if (event.keyCode === 65) {
+		//a
+		socket.emit('keyPress', {inputId:'left',state:true,socketid: socket_id});
+	} else if (event.keyCode === 87) {
+		//w
+		socket.emit('keyPress', {inputId:'up',state:true,socketid: socket_id});
+	} else if (event.keyCode === 13) {
+		//enter
+		socket.emit('keyPress', {inputId:'fire',state:true,socketid: socket_id});
+	}
+}
+//when key is released send signal to server
+document.onkeyup = function(event) {
+	if (event.keyCode === 68) { 
+		//d
+		socket.emit('keyPress', {inputId:'right',state:false,socketid: socket_id});
+	} else if (event.keyCode === 83) {
+		//s
+		socket.emit('keyPress', {inputId:'down',state:false,socketid: socket_id});
+	} else if (event.keyCode === 65) {
+		//a
+		socket.emit('keyPress', {inputId:'left',state:false,socketid: socket_id});
+	} else if (event.keyCode === 87) {
+		//w
+		socket.emit('keyPress', {inputId:'up',state:false,socketid: socket_id});
+	} else if (event.keyCode === 13) {
+		//enter
+		socket.emit('keyPress', {inputId:'fire',state:false,socketid: socket_id});
+	}
+}
+
 showJoinableGames();
 setInterval(function()
 {
 	showJoinableGames();
+	getPlayerList();
 }, 5000);

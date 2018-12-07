@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	</head>
 	<body id="body" style="background-color: #000;">
-		<div id="chooseNameDiv" style="display: block;">
+		<div id="chooseNameDiv" style="display: none;">
 			<br>
 			<br>
 			<p class="centerText" style="font-size: 25px;"><b>Welcome to Wizard Battle!</b></p>
@@ -36,8 +36,44 @@
 		
 		<div id="serverLobby" style="display: none;">
 			<br>
-			<p class="centerText" style="font-size: 25px;"><b>1/10 Players</b></p>
+			<p id="serverPlayerCount" class="centerText" style="font-size: 25px;"><b>1/10 Players</b></p>
 			<br>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
 			<div id="playerExample" class="playerTag" style="display: none;">
 				<p class="playerName">Player Name</p>
 				<div class="playerStatus">Host</div>
@@ -69,6 +105,14 @@
 			  </div>
 			</div>
 		  </div>
+		</div>
+		
+		<div id="wizardBattleGame" style="display: block;">
+			<img src="images/Map.png" style="position: absolute; width: 100%; height: 100%"></img>
+			<div id="playerIconContainer" style="position: absolute;" >
+				<img src="images/Potion.png" style="width: 50px; height: 50px;"></img>
+				<p class="" style="position: relative;"><i>Player Name Here</i></p>
+			</div>
 		</div>
 		
 		<!-- Socket stuff -->
