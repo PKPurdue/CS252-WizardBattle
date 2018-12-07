@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	</head>
 	<body id="body" style="background-color: #000;">
-		<div id="chooseNameDiv">
+		<div id="chooseNameDiv" style="display: block;">
 			<br>
 			<br>
 			<p class="centerText" style="font-size: 25px;"><b>Welcome to Wizard Battle!</b></p>
@@ -16,42 +16,66 @@
 			<p class="centerText" id="nameError" style="margin: 0px; font-size: 16px; color: #F33; display: none;">Error: </p>
 			<br>
 			<br>
-			<button class="serverButton" onclick="showServers()">Play</button>
+			<button class="serverButton" onclick="verifyName()">Play</button>
 			<br>
 			<br>
 		</div>
 		
 		<div id="serverList" style="display: none;">
-			<div class="card">
-			  <h5 class="card-header">Featured</h5>
-			  <div class="card-body">
-				<h5 class="card-title">Special title treatment</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
+			<div class="card-columns" id="serverCardHolder">
+				<div id="serverExample" class="card" style="display: none;">
+				  <div class="card-body">
+					<h5 class="card-title">Server Title</h5>
+					<p class="card-text">10/10 players</p>
+					<a id="gameId:-1" class="btn btn-primary" onclick="joinServer(this)">Join</a>
+				  </div>
+				</div>
+			</div>
+			<button id="createServerButton" data-toggle="modal" data-target="#exampleModal">Create Game</button>
+		</div>
+		
+		<div id="serverLobby" style="display: none;">
+			<br>
+			<p class="centerText" style="font-size: 25px;"><b>1/10 Players</b></p>
+			<br>
+			<div id="playerExample" class="playerTag" style="display: none;">
+				<p class="playerName">Player Name</p>
+				<div class="playerStatus">Host</div>
+			</div>
+			<p> </p>
+			<button id="startGameButton" onclick="startGame()">Start Game</button>
+		</div>
+		
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">New Game</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<form>
+				  <div class="form-group">
+					<label for="recipient-name" class="col-form-label">Server Name:</label>
+					<input type="text" class="form-control" id="createServerName">
+				  </div>
+				</form>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				<button id="sendMessageButton" type="button" class="btn btn-primary" onclick="createGame()" data-dismiss="modal">Create Game</button>
 			  </div>
 			</div>
-			<div class="card">
-			  <h5 class="card-header">Featured</h5>
-			  <div class="card-body">
-				<h5 class="card-title">Special title treatment</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
-			  </div>
-			</div>
-			<div class="card">
-			  <h5 class="card-header">Featured</h5>
-			  <div class="card-body">
-				<h5 class="card-title">Special title treatment</h5>
-				<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-				<a href="#" class="btn btn-primary">Go somewhere</a>
-			  </div>
-			</div>
+		  </div>
 		</div>
 		
 		<!-- Socket stuff -->
 		<script src="js/jquery.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="js/main.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 		<!--<script> 
 			var socket = io();
 			var socket_id;

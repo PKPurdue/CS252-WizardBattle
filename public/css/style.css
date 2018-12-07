@@ -55,7 +55,7 @@ body {
 	transition-duration: .3s;
 }
 
-.serverButton {
+.serverButton, #createServerButton, #startGameButton {
 	position: relative;
 	width: 30%;
 	left: 35%;
@@ -71,4 +71,81 @@ body {
 .serverButton:hover {
 	background-color: #2B3;
 	transition-duration: .3s;
+}
+
+#serverList {
+	position: relative;
+	top: 15%;
+	background-color: #555 !important;
+	width: 50%;
+	height: auto;
+	border-radius: 6px;
+	left: 25%;
+	background: white;
+	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 1px;
+}
+
+.card {
+	/*margin-top: 5px;*/
+}
+
+#createServerButton, #startGameButton {
+	background-color: #2AD;
+	margin-bottom: 4px;
+}
+
+#createServerButton:hover, #startGameButton:hover {
+	background-color: #19C;
+	transition-duration: .3s;
+}
+
+#serverLobby {
+	position: relative;
+	top: 15%;
+	background-color: #555 !important;
+	width: 50%;
+	height: auto;
+	border-radius: 6px;
+	left: 25%;
+	background: white;
+	padding: 5px;
+	padding-top: 5px;
+	padding-bottom: 1px;
+}
+
+.playerTag {
+	position: relative;
+	background-color: white;
+	border-radius: 4px;
+	margin-bottom: 5px;
+	width: 100%;
+	height: 30px;
+}
+
+.playerName {
+	position: absolute;
+	left: 3px;
+	top: 3px;
+	vertical-align: middle;
+	margin-left: 5px;
+}
+
+#serverLobby {
+	width: 30%;
+	left: 35%;
+	top: 20%;
+}
+
+.playerStatus {
+	background-color: #2AE;
+	border-radius: 3px;
+	color: white;
+	padding-left: 3px;
+	padding-right: 3px;
+	
+	position: absolute;
+	right: 3px;
+	top: 3px;
 }
