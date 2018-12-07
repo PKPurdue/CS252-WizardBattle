@@ -82,7 +82,10 @@ function checkForCollisions(game)
 				if (player.health < 0)
 				{
 					localLeaderboard.push({name: player.name, kills: player.kills});
-					localLeaderboard.sort(function(c, d) { return c.kills < d.kills; });
+					localLeaderboard.sort(function(c, d)
+					{
+						return d.kills - c.kills;
+					});
 					if (localLeaderboard.length > 10)
 					{
 						localLeaderboard.splice(10, (localLeaderboard.length - 10));
@@ -324,7 +327,7 @@ io.on('connection', function(socket)
 			//console.log(data.inputId + " : " + JSON.stringify(player.moveDirections));
 			var hMove = player.moveDirections[3] - player.moveDirections[2];
 			var vMove = player.moveDirections[1] - player.moveDirections[0];
-			var denom = Math.sqrt(Math.pow(hMove, 2) + Math.pow(vMove, 2)) * 2;
+			var denom = Math.sqrt(Math.pow(hMove, 2) + Math.pow(vMove, 2)) * 1.5;
 			if (denom == 0) { denom = 1; }
 			player.moveVector = [hMove / denom, vMove / denom];
 			
@@ -354,7 +357,7 @@ io.on('connection', function(socket)
 		{
 			if (player.game != undefined && player.game.active == true)
 			{
-				if (new Date().getTime() - player.lastFired > 1500 && (Math.abs(player.moveVector[0]) > 0 || Math.abs(player.moveVector[1]) > 0))
+				if (new Date().getTime() - player.lastFired > 750 && (Math.abs(player.moveVector[0]) > 0 || Math.abs(player.moveVector[1]) > 0))
 				{
 					//console.log("Firing");
 					//var projectile = [];
